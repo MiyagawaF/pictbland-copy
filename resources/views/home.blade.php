@@ -63,9 +63,9 @@
                             <a href="#">作品タイトル</a>
                             <p>キャプションキャプションキャプションキャプションキャプションキャプションキャプションキャプションキャプションキャプションキャプション…</p>
                             <div>
-                                <ul>
-                                    <li class="p-1 bg-secondary small"><a href="#">タグ１</a></li>
-                                    <li class="p-1 bg-secondary small"><a href="#">タグ２</a></li>
+                                <ul class="row">
+                                    <li class="p-1 bg-secondary small col"><a href="#">タグ１</a></li>
+                                    <li class="p-1 bg-secondary small col"><a href="#">タグ２</a></li>
                                 </ul>
                             </div>
                         </div>
