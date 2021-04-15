@@ -44,3 +44,18 @@
         </ul>
     </div>
 </nav>
+@auth
+<nav class="navbar navbar-expand-md navbar-dark bg-white shadow-sm">
+    <ul class="navbar-nav ml-auto mr-5">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('home') }}">ホーム</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('add/novel') }}">作品の投稿</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('work/index') }}">管理</a>
+        </li>
+    </ul>
+</nav>
+@endauth
