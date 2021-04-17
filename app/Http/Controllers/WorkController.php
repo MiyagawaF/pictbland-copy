@@ -14,7 +14,15 @@ class WorkController extends Controller
      */
     public function addNovel()
     {
-        return view('works/add/novel');
+        return view('/works/add/novel');
+    }
+
+    /**
+     * 小説の情報追加ページの表示
+     */
+    public function addNovelinfo()
+    {
+        return view('/works/add/novelinfo');
     }
 
     /**
@@ -30,7 +38,8 @@ class WorkController extends Controller
         $work->publish_status = $request->input('publish_status');
         $work->age_status = $request->input('age_status');
         $work->save();
-        return redirect('/home');
+        return view('works/add/end');
+        // return redirect('/home');
     }
 
     /**
