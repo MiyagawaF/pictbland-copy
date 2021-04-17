@@ -17,8 +17,10 @@ Route::get('/', function () {
 
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/works/add/novel', 'WorkController@addNovel');
+Route::post('/works/store/novel', 'WorkController@storeNovel');
+
+Route::get('/works/{id}', 'WorkController@detail');
+
 Auth::routes();
-
-Route::get('/add/novel', 'AddController@add');
-
-Route::get('/work/{id}', 'WorkController@detail');
