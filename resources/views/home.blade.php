@@ -8,16 +8,16 @@
             <div class="">
                 <img src="/img/profile.png" class="">
             </div>
-            <div class="">
+            <div class="mt-2">
                 <div class="">
                     <p class="text-center">ユーザー名</p>
                 </div>
                 <div>
                     <p>プロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィール</p>
                 </div>
-                <div class="row">
-                    <div class="col bg-white">
-                        <p>20</p>
+                <div class="row mr-1 ml-1">
+                    <div class="col bg-white mr-2">
+                        <p class="text-center">20</p>
                         <span>投稿</span>
                     </div>
                     <div class="col bg-white">
@@ -27,14 +27,14 @@
                 </div>
             </div>
             <div>
-                <div class="mt-10 mb-10">
+                <div class="mt-3 mb-2">
                     <span>あなたのフォロワー</span>
                 </div>
-                <div class="row">
-                    <div class="col"><img src="#"></div>
-                    <div class="col"><img src="#"></div>
-                    <div class="col"><img src="#"></div>
-                    <div class="col"><img src="#"></div>
+                <div class="row mb-2">
+                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
                 </div>
                 <div>
                     <a href="#">フォロワー一覧へ</a>
@@ -71,7 +71,23 @@
                         <div>
                             <div class="flex-row">
                                 <span class="p-1 bg-secondary small text-light">小説</span>
-                                <span class="p-1 bg-secondary small text-light">フォロ限</span>
+                                @switch($work->publish_status)
+                                    @case(1)
+                                        <span class="p-1 bg-secondary small text-light">{{Config::get('publish_st_tag.1')}}</span>
+                                        @break
+                                    @case(2)
+                                        <span class="p-1 bg-secondary small text-light">{{Config::get('publish_st_tag.2')}}</span>
+                                        @break
+                                    @case(3)
+                                        <span class="p-1 bg-secondary small text-light">{{Config::get('publish_st_tag.3')}}</span>
+                                        @break
+                                    @case(4)
+                                        <span class="p-1 bg-secondary small text-light">{{Config::get('publish_st_tag.4')}}</span>
+                                        @break
+                                    @case(5)
+                                        <span class="p-1 bg-secondary small text-light">{{Config::get('publish_st_tag.5')}}</span>
+                                        @break
+                                @endswitch
                                 <span class="p-1 bg-dark small text-light">鍵付き</span>
                                 {{-- <span class="p-1 bg-secondary small"><a href="#" class="text-light">タグ２</a></span> --}}
                             </div>
