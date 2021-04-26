@@ -18,8 +18,11 @@ Route::get('/', function () {
 Route::get('/', 'HomeController@index');
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/users/{id}', 'UserController@profile');
+Route::get('/users/edit/prof_edit', 'UserController@profEdit');
+Route::get('/users/edit/follow_edit', 'UserController@followEdit');
+
 Route::get('/works/add/novel', 'WorkController@addNovel');
-Route::get('/works/add/novelinfo', 'WorkController@addNovelinfo');
 Route::post('/works/store/novel', 'WorkController@storeNovel');
 Route::get('/works/add/end', 'WorkController@addEnd');
 

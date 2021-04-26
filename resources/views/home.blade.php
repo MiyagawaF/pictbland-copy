@@ -10,7 +10,7 @@
             </div>
             <div class="mt-2">
                 <div class="">
-                    <p class="text-center">ユーザー名</p>
+                    <p class="text-center">{{$user->name}}</p>
                 </div>
                 <div>
                     <p>プロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィール</p>
@@ -53,7 +53,7 @@
                 <div class="row mb-2">
                     <div class="col-md-1"><img src="/img/profile.png" class="w-100"></div>
                     <div class="col-md-5">
-                        <span><a href="#">ユーザー名</a> 2021/04/21 15:00</span><br>
+                    <span><a href="#">{{$work->name}}</a> {{$work->created_at}}</span><br>
                         <span><a href="#">{{$work->title}}</a>が投稿されました</span>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="col-md-10">
                         <a href="#">{{$work->title}}</a>
-                        <p>{{$work->caption}}</p>
+                        <p>{{str_limit($work->caption, 120, '　…')}}</p>
                         <div>
                             <div class="flex-row">
                                 <span class="p-1 bg-secondary small text-light">小説</span>

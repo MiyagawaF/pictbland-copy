@@ -18,18 +18,14 @@ class WorkController extends Controller
     }
 
     /**
-     * 小説の情報追加ページの表示
-     */
-    public function addNovelinfo()
-    {
-        return view('/works/add/novelinfo');
-    }
-
-    /**
      * 小説の投稿
      */
     public function storeNovel(Request $request)
     {
+        $request->validate([
+            'title' => 'required',
+            'caption' => 'max:1000',
+        ]);
         $work = new Work();
         $work->user_id = Auth::id();
         $work->type = 2;

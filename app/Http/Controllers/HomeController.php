@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Work;
 
 class HomeController extends Controller
@@ -24,8 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $works = Work::all();
+        $user = Auth::user();
 
-        return view('home', ['works' => $works]);
+        $works = Work::join('users', 'works.user_id', '=', 'users.id')
+            ->orderBy('works.created_at', 'desc')
+            ->get();
+
+        return view('home', ['works' => $works, 'user' => $user]);
     }
 }

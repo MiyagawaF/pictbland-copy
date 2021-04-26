@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">小説作品の投稿</div>
+                <div class="card-header">作品情報の編集</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="" method="POST">
+                    <form action="/works/store/novel" method="POST">
                         @csrf
                         <div class="form-group">
                             <label for="title">タイトル</label>
@@ -23,8 +23,30 @@
                             <label for="caption">本文</label>
                             <textarea class="form-control"  name="caption" id="caption" cols="20" rows="10"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="caption">キャプション</label>
+                            <textarea class="form-control"  name="caption" id="caption" cols="20" rows="5"></textarea>
+                        </div>
+                        <h6 class="pt-2 border-bottom">公開範囲の設定</h6>
+                        <div>
+                            @foreach (config('publish_status') as $key => $value)   
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="publish_status" id="publish_status" value="{{$key}}" @if ($loop->first) checked @endif>
+                                <label class="form-check-label" for="publish_status">{{$value}}</label>
+                            </div>
+                            @endforeach
+                        </div>
+                        <h6 class="pt-4 border-bottom">閲覧制限の設定</h6>
+                        <div class="mb-4">
+                            @foreach (config('age_status') as $key => $value)
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="age_status" id="age_status" value="{{$key}}" @if ($loop->first) checked @endif>
+                                <label class="form-check-label" for="age_status">{{$value}}</label>
+                            </div>
+                            @endforeach
+                        </div>
 
-                        <a href="/works/add/novelinfo"><input type="" value="次へ" class="btn btn-primary mb-4"></a>
+                        <input type="submit" value="作品を投稿" class="btn btn-primary mb-4">
 
                     </form>
                 </div>
