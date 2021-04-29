@@ -25,7 +25,8 @@ Route::get('/users/edit/follow_edit', 'UserController@followEdit');
 Route::get('/works/add/novel', 'WorkController@addNovel');
 Route::post('/works/store/novel', 'WorkController@storeNovel');
 Route::get('/works/add/end', 'WorkController@addEnd');
+Route::get('/works/{id}', 'WorkController@addEnd');
 
-Route::get('/works/{id}', 'WorkController@detail');
+Route::get('/works/detail/{id}', 'WorkController@detail');
 
 Auth::routes();
