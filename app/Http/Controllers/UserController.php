@@ -4,18 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Work;
-use App\NovelWork;
+use App\User;
 
 class WorkController extends Controller
 {
 
     /**
-     * 小説の追加ページの表示
+     * プロフィールページの表示
      */
-    public function addNovel()
+    public function profile($id)
     {
-        return view('/works/add/novel');
+        return view('/users');
     }
 
     /**
@@ -35,14 +34,8 @@ class WorkController extends Controller
         $work->publish_status = $request->input('publish_status');
         $work->age_status = $request->input('age_status');
         $work->save();
-
-        $novel_work = new NovelWork();
-        $novel_work->work_id = 2;
-        $novel_work->content = $request->input('content');
-        $novel_work->save();
-
-        //return view('/works/add/end');
-        return redirect('/home');
+        return view('works/add/end');
+        // return redirect('/home');
     }
 
     /**

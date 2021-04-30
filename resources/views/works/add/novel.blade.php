@@ -20,8 +20,8 @@
                             <input type="text" class="form-control" name="title" id="title">
                         </div>
                         <div class="form-group">
-                            <label for="caption">本文</label>
-                            <textarea class="form-control"  name="caption" id="caption" cols="20" rows="10"></textarea>
+                            <label for="content">本文</label>
+                            <textarea class="form-control"  name="content" id="content" cols="20" rows="10"></textarea>
                         </div>
                         <div class="form-group">
                             <label for="caption">キャプション</label>

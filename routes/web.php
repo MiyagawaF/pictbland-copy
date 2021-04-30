@@ -27,6 +27,7 @@ Route::post('/works/store/novel', 'WorkController@storeNovel');
 Route::get('/works/add/end', 'WorkController@addEnd');
 Route::get('/works/{id}', 'WorkController@addEnd');
 
+Route::get('/works/detail/list', 'WorkController@list');
 Route::get('/works/detail/{id}', 'WorkController@detail');
 
 Auth::routes();

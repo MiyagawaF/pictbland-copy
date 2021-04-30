@@ -46,16 +46,27 @@
 </nav>
 @auth
 <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
-    <ul class="navbar-nav ml-auto mr-5">
-        <li class="nav-item">
-            <a class="nav-link" href="{{ route('home') }}">ホーム</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/works/add/novel">作品の投稿</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="/works/index">管理</a>
-        </li>
-    </ul>
+    <div class="container">
+        <ul class="navbar-nav ml-auto mr-1">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ route('home') }}">ホーム</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/works/add/novel">作品の投稿</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/works/index">管理</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                設定
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="users/edit/prof_edit">プロフィールの設定</a>
+                    <a class="dropdown-item" href="users/edit/follow_edit">フォロー受付設定</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </nav>
 @endauth
