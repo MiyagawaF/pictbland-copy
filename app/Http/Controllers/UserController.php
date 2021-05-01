@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Work;
 
-class WorkController extends Controller
+class UserController extends Controller
 {
 
     /**
@@ -14,7 +15,12 @@ class WorkController extends Controller
      */
     public function profile($id)
     {
-        return view('/users');
+        $user = User::where('id', $id)->first();
+        $works = Work::join('users', 'works.user_id', '=', 'users.id')
+            ->where('user_id', $id)
+            ->orderBy('works.created_at', 'desc')
+            ->get();
+        return view('users/profile', ['user' => $user, 'works' => $works]);
     }
 
     /**

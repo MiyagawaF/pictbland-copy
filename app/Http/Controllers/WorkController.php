@@ -26,6 +26,7 @@ class WorkController extends Controller
         $request->validate([
             'title' => 'required',
             'caption' => 'max:1000',
+            'content' => 'required',
         ]);
         $work = new Work();
         $work->user_id = Auth::id();
@@ -34,22 +35,28 @@ class WorkController extends Controller
         $work->caption = $request->input('caption');
         $work->publish_status = $request->input('publish_status');
         $work->age_status = $request->input('age_status');
+        $work->password = $request->input('password');
+        $work->password_text = $request->input('password_text');
         $work->save();
 
         $novel_work = new NovelWork();
-        $novel_work->work_id = 2;
+        $novel_work->work_id = $work->id;
         $novel_work->content = $request->input('content');
         $novel_work->save();
 
-        //return view('/works/add/end');
-        return redirect('/home');
+        return view('/works/add/end');
+        //return redirect('/home');
     }
 
     /**
      * 作品詳細ページの表示
      */
-    public function detail()
+    public function detail($id)
     {
-        return view('works/detail');
+        $work = Work::where('id', $id)->first();
+
+        $content = NovelWork::where('work_id', $id)->first();
+
+        return view('works/detail' ['works' => $work, 'novel_works' => $content]);
     }
 }

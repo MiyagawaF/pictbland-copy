@@ -15,6 +15,7 @@
                     @endif
 
                     You are logged in!
+                    <span>{{$work->title}}</span>
                 </div>
             </div>
         </div>

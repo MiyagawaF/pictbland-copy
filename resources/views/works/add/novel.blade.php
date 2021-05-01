@@ -27,6 +27,14 @@
                             <label for="caption">キャプション</label>
                             <textarea class="form-control"  name="caption" id="caption" cols="20" rows="5"></textarea>
                         </div>
+                        <div class="form-group">
+                            <label for="password">パスワード</label>
+                            <input type="text" class="form-control" name="password" id="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="password_text">パスワードの説明</label>
+                            <textarea class="form-control"  name="password_text" id="password_text" cols="20" rows="3"></textarea>
+                        </div>
                         <h6 class="pt-2 border-bottom">公開範囲の設定</h6>
                         <div>
                             @foreach (config('publish_status') as $key => $value)   
@@ -46,6 +54,10 @@
                             @endforeach
                         </div>
 
+                        <div>
+                            <input type="text" onkeypress="hoge(e)" />
+                        </div>
+
                         <input type="submit" value="作品を投稿" class="btn btn-primary mb-4">
 
                     </form>
@@ -54,4 +66,13 @@
         </div>
     </div>
 </div>
+<script>
+    function hoge (e) {
+  const key = e.keyCode || e.charCode || 0;
+  if (key == 13) {
+    e.preventDefault();
+    alert('hogeeeeee');
+  }
+}
+</script>
 @endsection
