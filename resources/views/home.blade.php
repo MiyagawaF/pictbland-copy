@@ -42,14 +42,14 @@
             </div>
         </div>
         <div class="timeline col-lg-9 ml-20">
-            <div class="title bg-secondary border p-2">
+            <div class="title bg-secondary text-white border p-2">
                 <span>新着作品</span>
             </div>
             <div class="border bg-light p-2 text-center">
                 <span>再読み込み</span>
             </div>
             @foreach ($works as $work)
-            <div class="border p-3">
+            <div class="border p-3 bg-white">
                 <div class="row mb-2">
                     <div class="col-md-1"><img src="/img/profile.png" class="w-100"></div>
                     <div class="col-md-5">
@@ -61,8 +61,8 @@
                     <div class="col-md-2">
                         <img src="/img/worksample.jpg" alt="サムネイル" class="w-100">
                         <div class="text-center mt-2">
+                            <span class="border p-1">♥</span>
                             <span class="border p-1">★</span>
-                            <span class="border p-1">⇒</span>
                         </div>
                     </div>
                     <div class="col-md-10">
@@ -89,11 +89,21 @@
                                         @break
                                 @endswitch
                                 <span class="p-1 bg-dark small text-light">鍵付き</span>
+                                @switch($work->age_status)
+                                    @case(2)
+                                        <span class="p-1 bg-danger small text-light">R18</span>
+                                        @break
+                                    @case(3)
+                                        <span class="p-1 bg-danger small text-light">R18G</span>
+                                        @break
+                                    @default
+                                        @break
+                                @endswitch
                                 {{-- <span class="p-1 bg-secondary small"><a href="#" class="text-light">タグ２</a></span> --}}
                             </div>
                             <div class="flex-row mt-1">
-                                <span class="small"><a href="#">タグ１</a></span>
-                                <span class="small"><a href="#">タグ２</a></span>
+                                <span class="small pr-2"><a href="#">{{$work->tag}}</a></span>
+                                {{-- <span class="small"><a href="#">タグ２</a></span> --}}
                             </div>
                         </div>
                     </div>

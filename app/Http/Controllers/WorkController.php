@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Work;
 use App\NovelWork;
+use App\WorkTag;
 
 class WorkController extends Controller
 {
@@ -27,6 +28,7 @@ class WorkController extends Controller
             'title' => 'required',
             'caption' => 'max:1000',
             'content' => 'required',
+            'tag' => 'required'
         ]);
         $work = new Work();
         $work->user_id = Auth::id();
@@ -44,6 +46,11 @@ class WorkController extends Controller
         $novel_work->content = $request->input('content');
         $novel_work->save();
 
+        $work_tags = new WorkTag();
+        $work_tags->work_id = $work->id;
+        $work_tags->tag = $request->input('tag');
+        $work_tags->save();
+
         return view('/works/add/end');
         //return redirect('/home');
     }
@@ -54,9 +61,15 @@ class WorkController extends Controller
     public function detail($id)
     {
         $work = Work::where('id', $id)->first();
+        $novel_work = Novelwork::where('work_id', $id)->first();
+        return view('works/detail', ['work' => $work, 'novel_work' => $novel_work]);
+    }
 
-        $content = NovelWork::where('work_id', $id)->first();
-
-        return view('works/detail' ['works' => $work, 'novel_works' => $content]);
+    /**
+     * 作品管理ページの表示
+     */
+    public function index()
+    {
+        return view('works/index');
     }
 }

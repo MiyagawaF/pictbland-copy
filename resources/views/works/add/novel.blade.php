@@ -16,12 +16,16 @@
                     <form action="/works/store/novel" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="title">タイトル</label>
+                            <label for="title">タイトル*</label>
                             <input type="text" class="form-control" name="title" id="title">
                         </div>
                         <div class="form-group">
-                            <label for="content">本文</label>
+                            <label for="content">本文*</label>
                             <textarea class="form-control"  name="content" id="content" cols="20" rows="10"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="tag">タグ*</label>
+                            <input type="text" class="form-control" name="tag" id="tag">
                         </div>
                         <div class="form-group">
                             <label for="caption">キャプション</label>
@@ -54,10 +58,6 @@
                             @endforeach
                         </div>
 
-                        <div>
-                            <input type="text" onkeypress="hoge(e)" />
-                        </div>
-
                         <input type="submit" value="作品を投稿" class="btn btn-primary mb-4">
 
                     </form>
@@ -66,7 +66,7 @@
         </div>
     </div>
 </div>
-<script>
+{{-- <script>
     function hoge (e) {
   const key = e.keyCode || e.charCode || 0;
   if (key == 13) {
@@ -74,5 +74,5 @@
     alert('hogeeeeee');
   }
 }
-</script>
+</script> --}}
 @endsection

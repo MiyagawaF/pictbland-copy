@@ -1,3 +1,6 @@
 ul {
     list-style: none;
 }
+.novel_work,.caption{
+    white-space: pre-wrap;
+}
