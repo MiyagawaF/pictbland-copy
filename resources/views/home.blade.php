@@ -55,8 +55,8 @@
                 <div class="row mb-2">
                     <div class="col-md-1"><img src="/img/profile.png" class="w-100"></div>
                     <div class="col-md-5">
-                    <span><a href="#">{{$work->name}}</a> {{$work->created_at}}</span><br>
-                        <span><a href="#">{{$work->title}}</a>が投稿されました</span>
+                    <span><a href="../users/profile/{{$work->id}}">{{$work->name}}</a> {{$work->created_at}}</span><br>
+                        <span><a href="../works/detail/{{$work->work_id}}">{{$work->title}}</a>が投稿されました</span>
                     </div>
                 </div>
                 <div class="border ml-5 mr-3 row p-2">
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div class="col-md-10">
-                        <a href="#">{{$work->title}}</a>
+                        <a href="../works/detail/{{$work->work_id}}">{{$work->title}}</a>
                         <p>{{str_limit($work->caption, 120, '　…')}}</p>
                         <div>
                             <div class="flex-row">
