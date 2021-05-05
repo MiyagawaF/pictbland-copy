@@ -70,6 +70,8 @@ class WorkController extends Controller
      */
     public function index()
     {
-        return view('works/index');
+        $user = Auth::user();
+        $works = Work::where('user_id', $user->id)->get();
+        return view('works/index', ['works' => $works]);
     }
 }

@@ -45,9 +45,11 @@
             <div class="title bg-secondary text-white border p-2">
                 <span>新着作品</span>
             </div>
-            <div class="border bg-light p-2 text-center">
-                <span>再読み込み</span>
-            </div>
+            <a href="" class="txtdeco_n">
+                <div class="border bg-light p-2 text-center">
+                    <span>再読み込み</span>
+                </div>
+            </a>
             @foreach ($works as $work)
             <div class="border p-3 bg-white">
                 <div class="row mb-2">
