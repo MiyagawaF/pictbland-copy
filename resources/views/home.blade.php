@@ -55,7 +55,7 @@
                 <div class="row mb-2">
                     <div class="col-md-1"><img src="/img/profile.png" class="w-100"></div>
                     <div class="col-md-5">
-                    <span><a href="../users/profile/{{$work->id}}">{{$work->name}}</a> {{$work->created_at}}</span><br>
+                    <span><a href="../users/profile/{{$work->user_id}}">{{$work->name}}</a> {{$work->created_at}}</span><br>
                         <span><a href="../works/detail/{{$work->work_id}}">{{$work->title}}</a>が投稿されました</span>
                     </div>
                 </div>
@@ -104,7 +104,9 @@
                                 {{-- <span class="p-1 bg-secondary small"><a href="#" class="text-light">タグ２</a></span> --}}
                             </div>
                             <div class="flex-row mt-1">
-                                <span class="small pr-2"><a href="#">{{$work->tag}}</a></span>
+                                @foreach($work->tags as $tag)
+                                    <span class="small pr-2"><a href="#">{{$tag->tag}}</a></span>
+                                @endforeach
                                 {{-- <span class="small"><a href="#">タグ２</a></span> --}}
                             </div>
                         </div>

@@ -24,6 +24,10 @@ Route::get('/users/edit/follow_edit', 'UserController@followEdit');
 
 Route::get('/works/add/novel', 'WorkController@addNovel');
 Route::post('/works/store/novel', 'WorkController@storeNovel');
+
+Route::get('/works/add/illust', 'WorkController@addIllust');
+Route::post('/works/store/illust', 'WorkController@storeIllust');
+
 Route::get('/works/add/end', 'WorkController@addEnd');
 // Route::get('/works/{id}', 'WorkController@addEnd');
 Route::get('/works/index', 'WorkController@index');//作品管理画面（一覧）

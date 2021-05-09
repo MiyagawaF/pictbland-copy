@@ -27,12 +27,13 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $work_tags = WorkTag::get();
-        $works = Work::join('users', 'works.user_id', '=', 'users.id')
-            ->join('work_tags', 'works.id', '=', 'work_tags.work_id')
+        $works = Work::select('users.id as user_id', 'works.id as work_id', 'users.name', 'works.created_at', 'works.title', 'works.caption', 'works.publish_status', 'works.age_status')
+            ->join('users', 'works.user_id', '=', 'users.id')
             ->orderBy('works.created_at', 'desc')
             ->get();
-
-        return view('home', ['works' => $works, 'user' => $user, 'work_tags' => $work_tags]);
+        foreach($works as $work) {
+            $work->tags = WorkTag::where('work_id', '=', $work->work_id)->get();
+        }
+        return view('home', ['works' => $works, 'user' => $user]);
     }
 }

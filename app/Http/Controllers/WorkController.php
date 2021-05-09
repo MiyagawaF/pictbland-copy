@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Work;
 use App\NovelWork;
+use App\IllustWork;
 use App\WorkTag;
+use Storage;
 
 class WorkController extends Controller
 {
@@ -51,8 +53,56 @@ class WorkController extends Controller
         $work_tags->tag = $request->input('tag');
         $work_tags->save();
 
-        return view('/works/add/end');
+        return redirect('/works/add/end');
         //return redirect('/home');
+    }
+
+    public function addIllust()
+    {
+        return view('/works/add/illust');
+    }
+
+    /**
+     * イラストの投稿
+     */
+    public function storeIllust(Request $request){
+        $request->validate([
+            'title' => 'required',
+            'caption' => 'max:1000',
+            'image' => 'required',
+            'tag' => 'required'
+        ]);
+        $work = new Work();
+        $work->user_id = Auth::id();
+        $work->type = 1;
+        $work->title = $request->input('title');
+        $work->caption = $request->input('caption');
+        $work->publish_status = $request->input('publish_status');
+        $work->age_status = $request->input('age_status');
+        $work->password = $request->input('password');
+        $work->password_text = $request->input('password_text');
+        $work->save();
+
+        $illust_work = new NovelWork();
+        $illust_work->work_id = $work->id;
+        $image = $request->file('image');
+        $path = Storage::disk('s3')->putFile('illust', $image, 'public');
+        $image_url = Storage::disk('s3')->url($path);
+        dd($image_url);
+        // $illust_work->image_url = Storage::disk('s3')->url($path);
+        // $illust_work->save();
+
+        // $work_tags = new WorkTag();
+        // $work_tags->work_id = $work->id;
+        // $work_tags->tag = $request->input('tag');
+        // $work_tags->save();
+
+        return redirect('/works/add/end');
+        //return redirect('/home');
+    }
+
+    public function addEnd(){
+        return view('works/add/end');
     }
 
     /**
@@ -85,6 +135,7 @@ class WorkController extends Controller
         $work_tag = WorkTag::where('work_id', $id)->first();
         return view('works/edit/novel', ['work' => $work, 'novel_work' => $novel_work, 'work_tag' => $work_tag]);
     }
+
     /**
      * 小説編集内容保存
      */
