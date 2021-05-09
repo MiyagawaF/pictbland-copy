@@ -5,8 +5,8 @@
     <div class="row">
         {{-- プロフィール --}}
         <div class="prof col-lg-3 border pt-3">
-            <div class="">
-                <img src="/img/profile.png" class="">
+            <div class="w-100">
+                <img src="/img/profile.png" class="prof_img w-100 mx-auto d-block">
             </div>
             <div class="mt-2">
                 <div class="">

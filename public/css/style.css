@@ -14,3 +14,7 @@ ul {
 .px_10{
     font-size: 10px;
 }
+
+.prof_img{
+    max-width: 180px;
+}

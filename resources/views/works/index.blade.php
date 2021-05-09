@@ -38,7 +38,7 @@
                             <div>
                                 <ul class="d-flex flex-row justify-content-center mx-auto pr-3 pl-3">
                                     <li class="border rounded-circle px_12 w-25 text-center mr-1">&#9829;</li>
-                                    <li class="border rounded-circle px_12 w-25 text-center mr-1"><a href="#"><i class="fas fa-edit"></i></a></li>
+                                    <li class="border rounded-circle px_12 w-25 text-center mr-1"><a href="edit/novel/{{$work->id}}"><i class="fas fa-edit"></i></a></li>
                                     <li class="border rounded-circle px_12 w-25 text-center"><i class="fas fa-trash-alt"></i></li>
                                 </ul>
                             </div>

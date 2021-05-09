@@ -74,4 +74,45 @@ class WorkController extends Controller
         $works = Work::where('user_id', $user->id)->get();
         return view('works/index', ['works' => $works]);
     }
+
+    /**
+     * 小説編集ページの表示
+     */
+    public function editNovel($id)
+    {
+        $work = Work::where('id', $id)->first();
+        $novel_work = NovelWork::where('work_id', $id)->first();
+        $work_tag = WorkTag::where('work_id', $id)->first();
+        return view('works/edit/novel', ['work' => $work, 'novel_work' => $novel_work, 'work_tag' => $work_tag]);
+    }
+    /**
+     * 小説編集内容保存
+     */
+    public function updateNovel(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'caption' => 'max:1000',
+            'content' => 'required',
+            'tag' => 'required'
+        ]);
+        $work = Work::find($id);
+        $work->title = $request->title;
+        $work->caption = $request->caption;
+        $work->publish_status = $request->publish_status;
+        $work->age_status = $request->age_status;
+        $work->password = $request->password;
+        $work->password_text = $request->password_text;
+        $work->save();
+
+        $novel_work = NovelWork::where('work_id', $id)->first();
+        $novel_work->content = $request->content;
+        $novel_work->save();
+
+        $work_tag = WorkTag::where('work_id', $id)->first();
+        $work_tag->tag = $request->tag;
+        $work_tag->save();
+
+        return redirect('works/index');
+    }
 }

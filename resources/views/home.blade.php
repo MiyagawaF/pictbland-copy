@@ -4,9 +4,9 @@
 <div class="container">
     <div class="row">
         {{-- プロフィール --}}
-        <div class="prof col-lg-3 border pt-3">
-            <div class="">
-                <img src="/img/profile.png" class="">
+        <div class="prof col-sm-3 border pt-3">
+            <div class="w-100">
+                <img src="/img/profile.png" class="prof_img w-100 mx-auto d-block">
             </div>
             <div class="mt-2">
                 <div class="">
@@ -41,7 +41,7 @@
                 </div>
             </div>
         </div>
-        <div class="timeline col-lg-9 ml-20">
+        <div class="timeline col-sm-9 ml-20">
             <div class="title bg-secondary text-white border p-2">
                 <span>新着作品</span>
             </div>
