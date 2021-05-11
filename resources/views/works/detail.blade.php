@@ -17,7 +17,7 @@
                 </div>
             </div>
         </div>
-
+        @if ($work->type == 2)
         <div class="timeline col-lg-9 ml-20 border bg-white">
             <div class="mt-3">
                 <span>投稿日：{{$work->created_at}}</span>
@@ -37,6 +37,27 @@
                 </div>
             </div>
         </div>
+        @elseif ($work->type == 1)
+        <div class="timeline col-lg-9 ml-20 border bg-white">
+            <div class="mt-3">
+                <span>投稿日：{{$work->created_at}}</span>
+                <h3>{{$work->title}}</h3>
+            </div>
+            <div>
+                <button type="button" class="btn btn-outline-primary">&#9829;<br>いいね！</button>
+                <button type="button" class="btn btn-outline-primary">&#9733;<br>ブクマ</button>
+            </div>
+            <div class="mt-3">
+                <p class="caption">{{$work->caption}}</p>
+            </div>
+
+            <div class="border-top pt-3 pb-3 pr-2 pl-2">
+                <div class="p-5">
+                    <img src="{{$illust_work->image_url}}" alt="{{$work->title}}" class="w-100">
+                </div>
+            </div>
+        </div>
+        @endif
     </div>
 </div>
 @endsection

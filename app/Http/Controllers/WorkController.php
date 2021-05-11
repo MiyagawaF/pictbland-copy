@@ -83,19 +83,20 @@ class WorkController extends Controller
         $work->password_text = $request->input('password_text');
         $work->save();
 
-        $illust_work = new NovelWork();
+        $illust_work = new IllustWork();
         $illust_work->work_id = $work->id;
         $image = $request->file('image');
         $path = Storage::disk('s3')->putFile('illust', $image, 'public');
-        $image_url = Storage::disk('s3')->url($path);
-        dd($image_url);
+        $illust_work->image_url = Storage::disk('s3')->url($path);
+        $illust_work->page = 1;
+        //dd($image_url);
         // $illust_work->image_url = Storage::disk('s3')->url($path);
-        // $illust_work->save();
+        $illust_work->save();
 
-        // $work_tags = new WorkTag();
-        // $work_tags->work_id = $work->id;
-        // $work_tags->tag = $request->input('tag');
-        // $work_tags->save();
+        $work_tags = new WorkTag();
+        $work_tags->work_id = $work->id;
+        $work_tags->tag = $request->input('tag');
+        $work_tags->save();
 
         return redirect('/works/add/end');
         //return redirect('/home');
@@ -112,7 +113,8 @@ class WorkController extends Controller
     {
         $work = Work::where('id', $id)->first();
         $novel_work = Novelwork::where('work_id', $id)->first();
-        return view('works/detail', ['work' => $work, 'novel_work' => $novel_work]);
+        $illust_work = IllustWork::where('work_id', $id)->first();
+        return view('works/detail', ['work' => $work, 'novel_work' => $novel_work, 'illust_work' => $illust_work]);
     }
 
     /**

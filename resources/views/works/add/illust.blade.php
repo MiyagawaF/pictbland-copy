@@ -20,7 +20,7 @@
                             <input type="text" class="form-control" name="title" id="title">
                         </div>
                         <div class="form-group">
-                            <label for="content">本文*</label>
+                            <label for="content">画像を選択</label>
                             <input type="file" name="image" class="form-control">
                         </div>
                         <div class="form-group">
