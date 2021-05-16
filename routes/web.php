@@ -33,7 +33,8 @@ Route::get('/works/add/end', 'WorkController@addEnd');
 Route::get('/works/index', 'WorkController@index');//作品管理画面（一覧）
 Route::get('/works/detail/{id}', 'WorkController@detail');//作品詳細画面
 Route::get('/works/edit/novel/{id}', 'WorkController@editNovel');//小説作品編集画面
-Route::get('/works/edit/illust/{id}', 'WorkController@editIllust');//小説作品編集画面
+Route::get('/works/edit/illust/{id}', 'WorkController@editIllust');//イラスト作品編集画面
 Route::post('/works/update/novel/{id}', 'WorkController@updateNovel');//小説作品編集保存
+Route::post('/works/update/illust/{id}', 'WorkController@updateIllust');//イラスト作品編集保存
 
 Auth::routes();

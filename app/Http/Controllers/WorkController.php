@@ -184,4 +184,62 @@ class WorkController extends Controller
 
         return redirect('works/index');
     }
+
+    /**
+     * イラスト編集ページの表示
+     */
+    public function editIllust($id)
+    {
+        $work = Work::where('id', $id)->first();
+        $work_tag = WorkTag::where('work_id', $id)->first();
+        $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
+        $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
+        return view('works/edit/illust', ['work' => $work, 'illust_work1' => $illust_work1, 'illust_work2' => $illust_work2, 'work_tag' => $work_tag]);
+    }
+
+    /**
+     * イラスト編集内容保存
+     */
+    public function updateIllust(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'caption' => 'max:1000',
+            'tag' => 'required'
+        ]);
+        $work = Work::find($id);
+        $work->title = $request->title;
+        $work->caption = $request->caption;
+        $work->publish_status = $request->publish_status;
+        $work->age_status = $request->age_status;
+        $work->password = $request->password;
+        $work->password_text = $request->password_text;
+        $work->save();
+
+        $work_tag = WorkTag::where('work_id', $id)->first();
+        $work_tag->tag = $request->tag;
+        $work_tag->save();
+
+        $image1_r = $request->file('image1_r');
+        dd($image1_r);
+        //１枚目の画像
+        if (isset($image1_r)) {
+            $illust_work = IllustWork::where('work_id', $id)->where('page', 1)->first();
+            $path = Storage::disk('s3')->putFile('illust', $image1_r, 'public');
+            $illust_work->image_url = Storage::disk('s3')->url($path);
+            $illust_work->save();
+        }
+
+        //２枚目の画像
+        $image2_r = $request->file('image2_r');
+        //dd($image2);
+        if (isset($image2_r)) {
+            $illust_work = IllustWork::where('work_id', $id)->where('page', 2)->first();
+            $path = Storage::disk('s3')->putFile('illust', $image2_r, 'public');
+            $illust_work->image_url = Storage::disk('s3')->url($path);
+            $illust_work->save();
+        }
+
+        return redirect('works/index');
+    }
 }
