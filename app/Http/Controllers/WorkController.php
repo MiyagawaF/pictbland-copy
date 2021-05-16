@@ -69,7 +69,7 @@ class WorkController extends Controller
         $request->validate([
             'title' => 'required',
             'caption' => 'max:1000',
-            'image' => 'required',
+            'image1' => 'required',
             'tag' => 'required'
         ]);
         $work = new Work();
@@ -83,23 +83,38 @@ class WorkController extends Controller
         $work->password_text = $request->input('password_text');
         $work->save();
 
+        $work_tags = new WorkTag();
+        $work_tags->work_id = $work->id;
+        $work_tags->tag = $request->input('tag');
+        $work_tags->save();
+
+        //１枚目の画像
         $illust_work = new IllustWork();
         $illust_work->work_id = $work->id;
-        $image = $request->file('image');
-        $path = Storage::disk('s3')->putFile('illust', $image, 'public');
+        $image1 = $request->file('image1');
+        $path = Storage::disk('s3')->putFile('illust', $image1, 'public');
         $illust_work->image_url = Storage::disk('s3')->url($path);
         $illust_work->page = 1;
         //dd($image_url);
         // $illust_work->image_url = Storage::disk('s3')->url($path);
         $illust_work->save();
 
-        $work_tags = new WorkTag();
-        $work_tags->work_id = $work->id;
-        $work_tags->tag = $request->input('tag');
-        $work_tags->save();
+        //２枚目の画像
+        $image2 = $request->file('image2');
+        //dd($image2);
+        if (isset($image2)) {
+            $illust_work = new IllustWork();
+            $illust_work->work_id = $work->id;
+            $path = Storage::disk('s3')->putFile('illust', $image2, 'public');
+            $illust_work->image_url = Storage::disk('s3')->url($path);
+            $illust_work->page = 2;
+            //dd($image_url);
+            // $illust_work->image_url = Storage::disk('s3')->url($path);
+            $illust_work->save();
+        }
 
+        //dd($illust_work);
         return redirect('/works/add/end');
-        //return redirect('/home');
     }
 
     public function addEnd(){
@@ -113,8 +128,9 @@ class WorkController extends Controller
     {
         $work = Work::where('id', $id)->first();
         $novel_work = Novelwork::where('work_id', $id)->first();
-        $illust_work = IllustWork::where('work_id', $id)->first();
-        return view('works/detail', ['work' => $work, 'novel_work' => $novel_work, 'illust_work' => $illust_work]);
+        $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
+        $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
+        return view('works/detail', ['work' => $work, 'novel_work' => $novel_work, 'illust_work1' => $illust_work1, 'illust_work2' => $illust_work2]);
     }
 
     /**

@@ -8,7 +8,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Right Side Of Navbar -->
-        <ul class="navbar-nav ml-auto mr-5">
+        <ul class="navbar-nav mr-5">
             <!-- Authentication Links -->
             @guest
             <li class="nav-item">
@@ -18,10 +18,10 @@
                 <a class="nav-link" href="{{ route('login') }}">ログイン</a>
             </li>
             @else
-            <li class="container-fluid">
+            <li class="mr-3">
                 <form class="d-flex">
                   <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
+                  <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </li>
             <li class="nav-item dropdown">
@@ -51,8 +51,14 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('home') }}">ホーム</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/works/add/novel">作品の投稿</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                作品投稿
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="works/add/novel">小説作品の投稿</a>
+                    <a class="dropdown-item" href="/works/add/illust">イラスト作品の投稿</a>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/works/index">管理</a>

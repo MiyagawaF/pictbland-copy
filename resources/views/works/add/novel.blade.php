@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">作品情報の編集</div>
+                <div class="card-header">小説作品の投稿</div>
 
                 <div class="card-body">
                     @if (session('status'))

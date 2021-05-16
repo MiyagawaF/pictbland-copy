@@ -20,9 +20,17 @@
                             <input type="text" class="form-control" name="title" id="title">
                         </div>
                         <div class="form-group">
-                            <label for="content">画像を選択</label>
-                            <input type="file" name="image" class="form-control">
+                            <label for="image1">画像1を選択</label>
+                            <input type="file" name="image1" class="form-control border-0" class="">
                         </div>
+                        <div class="form-group">
+                            <label for="image2">画像2を選択</label>
+                            <input type="file" name="image2" class="form-control border-0" class="">
+                        </div>
+                        {{-- <div class="form-group">
+                            <label for="image3">画像3を選択</label>
+                            <input type="file" name="image3" class="form-control border-0" class="">
+                        </div> --}}
                         <div class="form-group">
                             <label for="tag">タグ*</label>
                             <input type="text" class="form-control" name="tag" id="tag">

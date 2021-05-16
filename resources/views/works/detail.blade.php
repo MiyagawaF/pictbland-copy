@@ -53,8 +53,13 @@
 
             <div class="border-top pt-3 pb-3 pr-2 pl-2">
                 <div class="p-5">
-                    <img src="{{$illust_work->image_url}}" alt="{{$work->title}}" class="w-100">
+                    <img src="{{$illust_work1->image_url}}" alt="{{$work->title}}" class="w-100">
                 </div>
+                @isset($illust_work2)
+                <div class="p-5 pt-0">
+                    <img src="{{$illust_work2->image_url}}" alt="{{$work->title}}" class="w-100">
+                </div>
+                @endisset
             </div>
         </div>
         @endif
