@@ -220,24 +220,26 @@ class WorkController extends Controller
         $work_tag->tag = $request->tag;
         $work_tag->save();
 
-        $image1_r = $request->file('image1_r');
-        dd($image1_r);
+        //dd($request->image1_r);
+        //dd($image1_r);
         //１枚目の画像
-        if (isset($image1_r)) {
-            $illust_work = IllustWork::where('work_id', $id)->where('page', 1)->first();
+        //$image1_r = $request->file('image1_r');
+        if (isset($request->image1_r)) {
+            $image1_r = $request->file('image1_r');
+            $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
             $path = Storage::disk('s3')->putFile('illust', $image1_r, 'public');
-            $illust_work->image_url = Storage::disk('s3')->url($path);
-            $illust_work->save();
+            $illust_work1->image_url = Storage::disk('s3')->url($path);
+            $illust_work1->save();
         }
 
         //２枚目の画像
-        $image2_r = $request->file('image2_r');
-        //dd($image2);
-        if (isset($image2_r)) {
-            $illust_work = IllustWork::where('work_id', $id)->where('page', 2)->first();
+        //$image2_r = $request->file('image2_r');
+        if (isset($request->image2_r)) {
+            $image2_r = $request->file('image2_r');
+            $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
             $path = Storage::disk('s3')->putFile('illust', $image2_r, 'public');
-            $illust_work->image_url = Storage::disk('s3')->url($path);
-            $illust_work->save();
+            $illust_work2->image_url = Storage::disk('s3')->url($path);
+            $illust_work2->save();
         }
 
         return redirect('works/index');

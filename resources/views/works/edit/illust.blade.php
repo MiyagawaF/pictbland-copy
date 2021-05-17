@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="/works/update/illust/{{$work->id}}" method="POST">
+                    <form action="/works/update/illust/{{$work->id}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="title">タイトル*</label>

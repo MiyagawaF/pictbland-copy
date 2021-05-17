@@ -36,4 +36,8 @@ class HomeController extends Controller
         }
         return view('home', ['works' => $works, 'user' => $user]);
     }
+
+    public function readme(){
+        return view('readme');
+    }
 }
