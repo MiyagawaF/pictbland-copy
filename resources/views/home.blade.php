@@ -73,7 +73,12 @@
                         <p>{{str_limit($work->caption, 120, '　…')}}</p>
                         <div>
                             <div class="flex-row">
-                                <span class="p-1 bg-secondary small text-light">小説</span>
+                                @if ($work->type == 1)
+                                    <span class="p-1 bg-secondary small text-light">イラスト</span>
+                                @elseif ($work->type == 2)
+                                    <span class="p-1 bg-secondary small text-light">小説</span>
+                                @endif
+
                                 @switch($work->publish_status)
                                     @case(1)
                                         <span class="p-1 bg-secondary small text-light">{{Config::get('publish_st_tag.1')}}</span>

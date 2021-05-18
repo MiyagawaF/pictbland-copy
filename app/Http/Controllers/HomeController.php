@@ -27,7 +27,7 @@ class HomeController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $works = Work::select('users.id as user_id', 'works.id as work_id', 'users.name', 'works.created_at', 'works.title', 'works.caption', 'works.publish_status', 'works.age_status')
+        $works = Work::select('users.id as user_id', 'works.id as work_id', 'users.name', 'works.created_at', 'works.type', 'works.title', 'works.caption', 'works.publish_status', 'works.age_status')
             ->join('users', 'works.user_id', '=', 'users.id')
             ->orderBy('works.created_at', 'desc')
             ->get();
