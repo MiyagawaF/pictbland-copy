@@ -22,6 +22,7 @@ Route::get('/readme', 'HomeController@readme');
 
 Route::get('/users/profile/{id}', 'UserController@profile');
 Route::get('/users/edit/prof_edit', 'UserController@profEdit');
+Route::post('/users/update/prof', 'UserController@profUpdate');
 Route::get('/users/edit/follow_edit', 'UserController@followEdit');
 
 Route::get('/works/add/novel', 'WorkController@addNovel');
