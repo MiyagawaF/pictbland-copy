@@ -4,37 +4,38 @@
 <div class="container">
     <div class="row">
         {{-- プロフィール --}}
-        <div class="prof col-lg-3 border pt-3">
+        <div class="prof col-sm-3 border p-0 pt-3 bg-white">
             <div class="w-100">
                 <img src="/img/profile.png" class="prof_img w-100 mx-auto d-block">
             </div>
-            <div class="mt-2">
-                <div class="">
-                    <p class="text-center">{{$user->name}}</p>
+            <div class="mt-3 pb-3 bg-secondary">
+                <div class="pt-3">
+                    <p class="text-center text-white">{{$user->name}}</p>
                 </div>
-                <div>
+                <div class="mr-3 ml-3 bg-white rounded p-2">
                     <p>プロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィール</p>
                 </div>
-                <div class="row mr-1 ml-1">
+                <div class="row mr-3 ml-3 mt-3">
                     <div class="col bg-white mr-2">
-                        <p class="text-center">20</p>
-                        <span>投稿</span>
+                        <p class="text-center">20<br>
+                        <span>投稿</span></p>
                     </div>
                     <div class="col bg-white">
-                        <p>100</p>
-                        <span>フォロー</span>
+                        <p class="text-center">100<br>
+                        <span>フォロー</span></p>
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="pr-3 pl-3">
                 <div class="mt-3 mb-2">
                     <span>あなたのフォロワー</span>
                 </div>
-                <div class="row mb-2">
-                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
-                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
-                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
-                    <div class="w-25 col"><img src="/img/profile.png" class="w-100"></div>
+                <div class="d-flex mb-2">
+                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
                 </div>
                 <div>
                     <a href="#">フォロワー一覧へ</a>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Work;
 use App\WorkTag;
+use App\Profile;
 
 class HomeController extends Controller
 {
@@ -29,12 +30,15 @@ class HomeController extends Controller
         $user = Auth::user();
         $works = Work::select('users.id as user_id', 'works.id as work_id', 'users.name', 'works.created_at', 'works.type', 'works.title', 'works.caption', 'works.publish_status', 'works.age_status')
             ->join('users', 'works.user_id', '=', 'users.id')
+            ->join('profiles', 'works.user_id', '=', 'profiles.user_id')
             ->orderBy('works.created_at', 'desc')
             ->get();
         foreach($works as $work) {
             $work->tags = WorkTag::where('work_id', '=', $work->work_id)->get();
         }
-        return view('home', ['works' => $works, 'user' => $user]);
+        dd($works);
+        $profile = Profile::where('user_id', $user->id)->first();
+        return view('home', ['works' => $works, 'user' => $user, 'profile' => $profile]);
     }
 
     public function readme(){
