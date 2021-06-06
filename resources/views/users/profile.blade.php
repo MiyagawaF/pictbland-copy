@@ -6,14 +6,14 @@
         {{-- プロフィール --}}
         <div class="prof col-sm-3 border p-0 pt-3 bg-white">
             <div class="w-100">
-                <img src="/img/profile.png" class="prof_img w-100 mx-auto d-block">
+                <img src="{{$profile->image_url}}" class="prof_img w-100 mx-auto d-block">
             </div>
             <div class="mt-3 pb-3 bg-secondary">
                 <div class="pt-3">
                     <p class="text-center text-white">{{$user->name}}</p>
                 </div>
                 <div class="mr-3 ml-3 bg-white rounded p-2">
-                    <p>プロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィールプロフィール</p>
+                    <p>{{$profile->intro}}</p>
                 </div>
                 <div class="row mr-3 ml-3 mt-3">
                     <div class="col bg-white mr-2">
@@ -52,7 +52,7 @@
             @foreach ($works as $work)
             <div class="border p-3">
                 <div class="row mb-2">
-                    <div class="col-md-1"><img src="/img/profile.png" class="w-100"></div>
+                    <div class="col-md-1"><img src="{{$profile->image_url}}" class="w-100"></div>
                     <div class="col-md-5">
                     <span><a href="#">{{$work->name}}</a> {{$work->created_at}}</span><br>
                         <span><a href="#">{{$work->title}}</a>が投稿されました</span>

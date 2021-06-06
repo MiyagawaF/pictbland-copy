@@ -41,6 +41,9 @@ class WorkController extends Controller
         $work->age_status = $request->input('age_status');
         $work->password = $request->input('password');
         $work->password_text = $request->input('password_text');
+        $thumbnail = $request->file('thumbnail');
+        $path = Storage::disk('s3')->putFile('illust', $thumbnail, 'public');
+        $work->thumbnail = Storage::disk('s3')->url($path);
         $work->save();
 
         $novel_work = new NovelWork();
@@ -95,9 +98,10 @@ class WorkController extends Controller
         $path = Storage::disk('s3')->putFile('illust', $image1, 'public');
         $illust_work->image_url = Storage::disk('s3')->url($path);
         $illust_work->page = 1;
-        //dd($image_url);
-        // $illust_work->image_url = Storage::disk('s3')->url($path);
         $illust_work->save();
+        //サムネイル投稿
+        $work->thumbnail = $illust_work->image_url;
+        $work->save();
 
         //２枚目の画像
         $image2 = $request->file('image2');
@@ -243,5 +247,60 @@ class WorkController extends Controller
         }
 
         return redirect('works/index');
+    }
+
+    public function search(Request $request) {
+        $keyword = $request->search;
+        $search_method = $request->search_method;
+        $order = $request->order;
+        if (!isset($order)) {
+            //デフォルトで新着順にする
+            $order = "new";
+        }
+        $sort = $request->sort;
+        if (!isset($sort)) {
+            //デフォルトで全て表示
+            $sort = "all";
+        }
+
+        $work_query = Work::query();
+        if ($search_method == "keyword_search") {
+            //キーワード検索
+            if (isset($keyword)) {
+                $work_query->where('title', 'like', "%$keyword%");
+                $work_query->orWhere('caption', 'like', "%$keyword%");
+            }
+        } else if ($search_method == "tag_search") {
+            //タグ検索
+            $tag_query = WorkTag::query();
+            if (isset($keyword)) {
+                $tag_query->where('tag', '=', "$keyword");
+            }
+            $work_tags = $tag_query->get();
+            $work_id_array = [];
+            foreach ($work_tags as $work_tag) {
+                $work_id_array[] = $work_tag->work_id;
+            }
+            $work_query->whereIn('id', $work_id_array);
+        }
+
+        //絞り込み
+        if ($sort == "illust") {
+            $work_query->where('type', '=', '1');
+        } else if ($sort == "novel") {
+            $work_query->where('type', '=', '2');
+        }
+
+        //並び替え
+        if ($order == "old") {
+            $work_query->orderBy('works.created_at', 'asc');
+        } else if ($order == "new") {
+            $work_query->orderBy('works.created_at', 'desc');
+        }
+
+        $works = $work_query->get();
+        //dd($works);
+
+        return view('works/search', ['works' => $works, 'keyword' => $keyword, 'search_method' => $search_method, 'order' => $order, 'sort' => $sort]);
     }
 }

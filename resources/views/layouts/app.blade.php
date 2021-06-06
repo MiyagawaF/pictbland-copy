@@ -23,7 +23,10 @@
 </head>
 <body>
     <div id="app">
-        @component('components.header')
+        @component('components.header', [
+            'keyword' => isset($keyword) ? $keyword : '',
+            'search_method' => isset($search_method) ? $search_method : 'keyword_search'
+        ])
         @endcomponent
 
         <main class="py-4">

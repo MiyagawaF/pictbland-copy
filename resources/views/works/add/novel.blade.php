@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="/works/store/novel" method="POST">
+                    <form action="/works/store/novel" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="title">タイトル*</label>
@@ -30,6 +30,10 @@
                         <div class="form-group">
                             <label for="caption">キャプション</label>
                             <textarea class="form-control"  name="caption" id="caption" cols="20" rows="5"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="thumbnail" class="px_12">サムネイル画像を選択</label>
+                            <input type="file" name="thumbnail" class="form-control border-0 px_12" class="">
                         </div>
                         <div class="form-group">
                             <label for="password">パスワード</label>

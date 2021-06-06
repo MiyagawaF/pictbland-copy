@@ -22,7 +22,8 @@ class UserController extends Controller
             ->where('user_id', $id)
             ->orderBy('works.created_at', 'desc')
             ->get();
-        return view('users/profile', ['user' => $user, 'works' => $works]);
+        $profile = Profile::where('user_id', $id)->first();
+        return view('users/profile', ['user' => $user, 'works' => $works, 'profile' => $profile]);
     }
 
     /**

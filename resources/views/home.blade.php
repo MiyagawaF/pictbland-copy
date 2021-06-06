@@ -62,7 +62,11 @@
                 </div>
                 <div class="border ml-5 mr-3 row p-2">
                     <div class="col-md-2">
-                        <img src="/img/worksample.jpg" alt="サムネイル" class="w-100">
+                        @isset ($work->thumbnail)
+                            <img src="{{$work->thumbnail}}" alt="サムネイル" class="w-100">
+                        @else
+                            <img src="/img/worksample.jpg" alt="サムネイル" class="w-100">
+                        @endisset
                         <div class="text-center mt-2">
                             <span class="border p-1">♥</span>
                             <span class="border p-1">★</span>

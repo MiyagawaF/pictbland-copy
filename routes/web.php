@@ -40,4 +40,6 @@ Route::get('/works/edit/illust/{id}', 'WorkController@editIllust');//イラス�
 Route::post('/works/update/novel/{id}', 'WorkController@updateNovel');//小説作品編集保存
 Route::post('/works/update/illust/{id}', 'WorkController@updateIllust');//イラスト作品編集保存
 
+Route::get('/search', 'WorkController@search');//作品検索
+
 Auth::routes();

@@ -19,9 +19,21 @@
             </li>
             @else
             <li class="mr-3">
-                <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
+                <form class="d-flex" action="/search" method="GET">
+                    <div class="row ml-3 mr-2">
+                        <div class="form-check pt-3">
+                            <input class="form-check-input" type="radio" name="search_method" id="keyword_search" value="keyword_search" @if($search_method == "keyword_search") checked="checked" @endif>
+                            <label class="form-check-label" for="keyword_search">キーワード検索</label>
+                        </div>
+                        <div class="form-check ml-2 pt-3 mr-3">
+                            <input class="form-check-input" type="radio" name="search_method" id="tag_search" value="tag_search" @if($search_method == "tag_search") checked="checked" @endif>
+                            <label class="form-check-label" for="tag_search">タグ検索</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search" value="{{$keyword}}">
+                    </div>
+                    <button class="btn btn-outline-success" type="submit"><i class="fas fa-search"></i></button>
                 </form>
             </li>
             <li class="nav-item dropdown">
@@ -59,7 +71,7 @@
                 作品投稿
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="works/add/novel">小説作品の投稿</a>
+                    <a class="dropdown-item" href="/works/add/novel">小説作品の投稿</a>
                     <a class="dropdown-item" href="/works/add/illust">イラスト作品の投稿</a>
                 </div>
             </li>
@@ -71,8 +83,8 @@
                 設定
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="users/edit/prof_edit">プロフィールの設定</a>
-                    <a class="dropdown-item" href="users/edit/follow_edit">フォロー受付設定</a>
+                    <a class="dropdown-item" href="/users/edit/prof_edit">プロフィールの設定</a>
+                    <a class="dropdown-item" href="/users/edit/follow_edit">フォロー受付設定</a>
                 </div>
             </li>
         </ul>

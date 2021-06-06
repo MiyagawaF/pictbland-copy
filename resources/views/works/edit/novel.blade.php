@@ -13,7 +13,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-                    <form action="/works/update/novel/{{$work->id}}" method="POST">
+                    <form action="/works/update/novel/{{$work->id}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="title">タイトル*</label>
@@ -30,6 +30,19 @@
                         <div class="form-group">
                             <label for="caption">キャプション</label>
                             <textarea class="form-control"  name="caption" id="caption" value="{{$work->caption}}"cols="20" rows="5">{{$work->caption}}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <div class="w-25">
+                                @isset ($work->image_url)
+                                    <img src="{{$profile->image_url}}" alt="サムネイル画像" class="mw-100">
+                                @else
+                                    <img src="/img/worksample.jpg" alt="サムネイル画像" class="mw-100">
+                                @endisset
+                                <p class="px_12">現在のサムネイル画像</p>
+                            </div>
+                            <label for="thumbnail" class="px_12">サムネイル画像を選択</label>
+                            <input type="file" name="thumbnail" class="form-control border-0 px_12" class="">
+                            <p class="text-danger px_12">※180×180pxの画像推奨</p>
                         </div>
                         <div class="form-group">
                             <label for="password">パスワード</label>
