@@ -20,6 +20,7 @@
             @else
             <li class="mr-3">
                 <form class="d-flex" action="/search" method="GET">
+                    @csrf
                     <div class="row ml-3 mr-2">
                         <div class="form-check pt-3">
                             <input class="form-check-input" type="radio" name="search_method" id="keyword_search" value="keyword_search" @if($search_method == "keyword_search") checked="checked" @endif>
