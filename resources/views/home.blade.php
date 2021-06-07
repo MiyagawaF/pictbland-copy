@@ -6,14 +6,14 @@
         {{-- プロフィール --}}
         <div class="prof col-sm-3 border p-0 pt-3 bg-white">
             <div class="w-100">
-                <img src="{{$profile->image_url}}" class="prof_img w-100 mx-auto d-block">
+                <img src="@isset($profile) {{$profile->image_url}} @else /img/profile.png @endisset" class="prof_img w-100 mx-auto d-block">
             </div>
             <div class="mt-3 pb-3 bg-secondary">
                 <div class="pt-3">
                     <p class="text-center text-white">{{$user->name}}</p>
                 </div>
                 <div class="mr-3 ml-3 bg-white rounded p-2">
-                    <p>{{$profile->intro}}</p>
+                    <p>@isset($profile) {{$profile->intro}} @else よろしくお願いします！@endisset</p>
                 </div>
                 <div class="row mr-3 ml-3 mt-3">
                     <div class="col bg-white mr-2">
