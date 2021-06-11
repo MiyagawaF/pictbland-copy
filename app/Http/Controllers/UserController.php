@@ -49,7 +49,6 @@ class UserController extends Controller
             $profile->intro = $request->input('intro');
             if (isset($request->prof_image)) {
                 $prof_image = $request->file('prof_image');
-                //$illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
                 $path = Storage::disk('s3')->putFile('profile', $prof_image, 'public');
                 $profile->image_url = Storage::disk('s3')->url($path);
             }
@@ -59,9 +58,12 @@ class UserController extends Controller
             $new_profile->user_id = $user->id;
             //dd($new_profile->user_id);
             $new_profile->intro = $request->input('intro');
-            $prof_image = $request->file('prof_image');
-            $path = Storage::disk('s3')->putFile('profile', $prof_image, 'public');
-            $new_profile->image_url = Storage::disk('s3')->url($path);
+            if (isset($request->prof_image)) {
+                $prof_image = $request->file('prof_image');
+                $path = Storage::disk('s3')->putFile('profile', $prof_image, 'public');
+                $new_profile->image_url = Storage::disk('s3')->url($path);
+            }
+            $new_profile->image_url = "/img/profile.png";
             $new_profile->save();
         }
 

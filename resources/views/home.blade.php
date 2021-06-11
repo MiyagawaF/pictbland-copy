@@ -54,7 +54,13 @@
             @foreach ($works as $work)
             <div class="border p-3 bg-white">
                 <div class="row mb-2">
-                    <div class="col-md-1"><img src="{{$work->image_url}}" class="w-100"></div>
+                    <div class="col-md-1">
+                        @isset ($work->image_url)
+                            <img src="{{$work->image_url}}" class="w-100">
+                        @else
+                        <img src="/img/profile.png" class="w-100">
+                        @endisset
+                    </div>
                     <div class="col-md-5">
                     <span><a href="../users/profile/{{$work->user_id}}">{{$work->name}}</a> {{$work->created_at}}</span><br>
                         <span><a href="../works/detail/{{$work->work_id}}">{{$work->title}}</a>が投稿されました</span>
