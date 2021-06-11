@@ -23,9 +23,5 @@
         "sass-loader": "^7.1.0",
         "vue": "^2.5.17",
         "font-awesome": "^4.7.0"
-    },
-    "engines": {
-        "node": "15.x",
-        "npm": "6.x.x"
     }
 }
