@@ -41,9 +41,11 @@ class WorkController extends Controller
         $work->age_status = $request->input('age_status');
         $work->password = $request->input('password');
         $work->password_text = $request->input('password_text');
-        $thumbnail = $request->file('thumbnail');
-        $path = Storage::disk('s3')->putFile('illust', $thumbnail, 'public');
-        $work->thumbnail = Storage::disk('s3')->url($path);
+        if (isset($request->thumbnail)){
+            $thumbnail = $request->file('thumbnail');
+            $path = Storage::disk('s3')->putFile('illust', $thumbnail, 'public');
+            $work->thumbnail = Storage::disk('s3')->url($path);
+        }
         $work->save();
 
         $novel_work = new NovelWork();
