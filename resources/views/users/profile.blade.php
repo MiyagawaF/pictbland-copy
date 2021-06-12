@@ -26,6 +26,9 @@
                     </div>
                 </div>
             </div>
+            <div>
+                <button class="btn btn-info">フォローする</button>
+            </div>
             <div class="pr-3 pl-3">
                 <div class="mt-3 mb-2">
                     <span>あなたのフォロワー</span>
