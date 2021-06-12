@@ -45,56 +45,15 @@ class UserController extends Controller
         $user->save();
         
         $profile = Profile::where('user_id', $user->id)->first();
-        if (isset($profile)) {
-            $profile->intro = $request->input('intro');
-            if (isset($request->prof_image)) {
-                $prof_image = $request->file('prof_image');
-                $path = Storage::disk('s3')->putFile('profile', $prof_image, 'public');
-                $profile->image_url = Storage::disk('s3')->url($path);
-            }
-            $profile->save();
-        }else{
-            $new_profile = new Profile();
-            $new_profile->user_id = $user->id;
-            //dd($new_profile->user_id);
-            $new_profile->intro = $request->input('intro');
-            if (isset($request->prof_image)) {
-                $prof_image = $request->file('prof_image');
-                $path = Storage::disk('s3')->putFile('profile', $prof_image, 'public');
-                $new_profile->image_url = Storage::disk('s3')->url($path);
-            }
-            $new_profile->image_url = "/img/profile.png";
-            $new_profile->save();
+
+        $profile->intro = $request->input('intro');
+        if (isset($request->prof_image)) {
+            $prof_image = $request->file('prof_image');
+            $path = Storage::disk('s3')->putFile('profile', $prof_image, 'public');
+            $profile->image_url = Storage::disk('s3')->url($path);
         }
+        $profile->save();
 
         return redirect('/home');
     }
-
-    /**
-     * 小説の投稿
-     */
-    // public function storeNovel(Request $request)
-    // {
-    //     $request->validate([
-    //         'title' => 'required',
-    //         'caption' => 'max:1000',
-    //     ]);
-    //     $work = new Work();
-    //     $work->user_id = Auth::id();
-    //     $work->type = 2;
-    //     $work->title = $request->input('title');
-    //     $work->caption = $request->input('caption');
-    //     $work->publish_status = $request->input('publish_status');
-    //     $work->age_status = $request->input('age_status');
-    //     $work->save();
-    //     return view('works/add/end');
-    // }
-
-    /**
-     * 作品詳細ページの表示
-     */
-    // public function detail()
-    // {
-    //     return view('works/detail');
-    // }
 }
