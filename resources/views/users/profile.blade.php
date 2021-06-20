@@ -26,24 +26,10 @@
                     </div>
                 </div>
             </div>
-            <div>
-                <button class="btn btn-info">フォローする</button>
+            <div class="w-100">
+                <button class="btn {{$follow_button}} mt-3 text-white" id="follow_button" data-follow_id="{{$user->id}}">{{$button_txt}}</button>
             </div>
-            <div class="pr-3 pl-3">
-                <div class="mt-3 mb-2">
-                    <span>あなたのフォロワー</span>
-                </div>
-                <div class="d-flex mb-2">
-                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
-                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
-                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
-                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
-                    <div class="w-25 mr-2"><img src="/img/profile.png" class="w-100"></div>
-                </div>
-                <div>
-                    <a href="#">フォロワー一覧へ</a>
-                </div>
-            </div>
+
         </div>
         <div class="timeline col-lg-9 ml-20">
             <div class="title bg-secondary border p-2">
@@ -107,4 +93,40 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(function() {
+        $('#follow_button').click(function() {
+            // フォローしたユーザーのidを取得する
+            var id = $(this).data('follow_id');
+
+            // Ajax通信
+            $.ajax({
+                headers: {
+                    // csrf対策
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/users/follow/' + id, // アクセスするURL
+                type: 'POST', // POSTかGETか
+                success: function() {
+                    //通信が成功した場合の処理をここに書く
+                    //フォローボタンをフォロー解除に切り替える
+                    if ($("#follow_button").hasClass("btn-info")) {
+                        $("#follow_button").removeClass("btn-info");
+                        $("#follow_button").addClass("btn-danger");
+                        $("#follow_button").text("フォロー解除");
+                    }else if ($("#follow_button").hasClass("btn-danger")) {
+                        $("#follow_button").removeClass("btn-danger");
+                        $("#follow_button").addClass("btn-info");
+                        $("#follow_button").text("フォローする");
+                    }
+                },
+                error: function() {
+                    //通信が失敗した場合の処理をここに書く
+                    alert("フォローに失敗しました");
+                }
+            });
+        });
+    });
+</script>
 @endsection

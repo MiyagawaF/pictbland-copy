@@ -25,6 +25,8 @@ Route::get('/users/edit/prof_edit', 'UserController@profEdit');
 Route::post('/users/update/prof', 'UserController@profUpdate');
 Route::get('/users/edit/follow_edit', 'UserController@followEdit');
 
+Route::post('/users/follow/{id}', 'UserController@follow');
+
 Route::get('/works/add/novel', 'WorkController@addNovel');
 Route::post('/works/store/novel', 'WorkController@storeNovel');
 
@@ -32,7 +34,6 @@ Route::get('/works/add/illust', 'WorkController@addIllust');
 Route::post('/works/store/illust', 'WorkController@storeIllust');
 
 Route::get('/works/add/end', 'WorkController@addEnd');
-// Route::get('/works/{id}', 'WorkController@addEnd');
 Route::get('/works/index', 'WorkController@index');//作品管理画面（一覧）
 Route::get('/works/detail/{id}', 'WorkController@detail');//作品詳細画面
 Route::get('/works/edit/novel/{id}', 'WorkController@editNovel');//小説作品編集画面
