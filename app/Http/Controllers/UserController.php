@@ -47,6 +47,7 @@ class UserController extends Controller
         return view('/users/edit/prof_edit', ['user' => $user, 'profile' => $profile]);
     }
 
+    //プロフィール編集保存
     public function profUpdate(Request $request){
         $request->validate([
             'name' => 'required',
@@ -69,6 +70,7 @@ class UserController extends Controller
         return redirect('/home');
     }
 
+    //フォロー機能
     public function follow($id){
         $user = Auth::user();
         $follow_users = FollowUser::where('follow_id', $id)->where('follower_id', $user->id)->first();
@@ -82,5 +84,19 @@ class UserController extends Controller
             $follow_users->follower_id = $user->id;
             $follow_users->save();
         }
+    }
+
+    //フォロー一覧
+    public function follow_list(){
+        $user = Auth::user();
+        $follow_users = FollowUser::where('follower_id', $user->id)
+        ->whereNull('deleted_at')
+        ->join('users', 'follow_users.follow_id', '=', 'users.id')
+        ->join('profiles', 'follow_users.follow_id', '=', 'profiles.user_id')
+        ->orderBy('follow_users.created_at', 'desc')
+        ->paginate(20);
+        // ->get();
+
+        return view('/users/follow_list', ['follow_users' => $follow_users]);
     }
 }

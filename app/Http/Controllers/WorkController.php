@@ -133,10 +133,41 @@ class WorkController extends Controller
     public function detail($id)
     {
         $work = Work::where('id', $id)->first();
-        $novel_work = Novelwork::where('work_id', $id)->first();
-        $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
-        $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
+        $novel_work = 0;
+        $illust_work1 = 0;
+        $illust_work2 = 0;
+        if (empty($work->password)) {
+            $novel_work = Novelwork::where('work_id', $id)->first();
+            $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
+            $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
+        }
         return view('works/detail', ['work' => $work, 'novel_work' => $novel_work, 'illust_work1' => $illust_work1, 'illust_work2' => $illust_work2]);
+    }
+
+    //パスワード付き作品の表示
+    public function password_check(Request $request)
+    {
+        $password = $request->password;
+        $work_id = $request->work_id;
+
+        $work = Work::where('id', $work_id)->first();
+        if ($work->password != $password) {
+            $status = 0;
+            return response()->json(['status' => $status]);
+        }
+        
+        $status = 1;
+        //dd($status);
+        if ($work->type == 1) {
+            $illust_work1 = IllustWork::where('work_id', $work_id)->where('page', 1)->first();
+            $illust_work2 = IllustWork::where('work_id', $work_id)->where('page', 2)->first();
+
+            return response()->json(['illust_work1' => $illust_work1, 'illust_work2' => $illust_work2, 'status' => $status]);
+        }else if ($work->type == 2) {
+            $novel_work = NovelWork::where('work_id', $work_id)->first();
+
+            return response()->json(['novel_work' => $novel_work, 'status' => $status]);
+        }
     }
 
     /**
@@ -300,7 +331,7 @@ class WorkController extends Controller
             $work_query->orderBy('works.created_at', 'desc');
         }
 
-        $works = $work_query->get();
+        $works = $work_query->paginate(20);
         //dd($works);
 
         return view('works/search', ['works' => $works, 'keyword' => $keyword, 'search_method' => $search_method, 'order' => $order, 'sort' => $sort]);

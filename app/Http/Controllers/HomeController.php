@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Work;
 use App\WorkTag;
 use App\Profile;
+use App\FollowUser;
 
 class HomeController extends Controller
 {
@@ -37,7 +38,9 @@ class HomeController extends Controller
             $work->tags = WorkTag::where('work_id', '=', $work->work_id)->get();
         }
         $profile = Profile::where('user_id', $user->id)->first();
-        return view('home', ['works' => $works, 'user' => $user, 'profile' => $profile]);
+        $follow_users = FollowUser::where('follower_id', $user->id)->count();
+        
+        return view('home', ['works' => $works, 'user' => $user, 'profile' => $profile, 'follow_users' => $follow_users]);
     }
 
     public function readme(){

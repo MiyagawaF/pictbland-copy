@@ -40,7 +40,8 @@
                     </div>
                 </div>
                 <div class="col-md-9">
-                    <a href="../works/detail/{{$work->work_id}}">{{$work->title}}</a>
+                    <p class="small m-0 p-0">{{$work->created_at}}</p>
+                    <a href="../works/detail/{{$work->id}}">{{$work->title}}</a>
                     <p>{{str_limit($work->caption, 120, '　…')}}</p>
                     <div>
                         <div class="flex-row">
@@ -90,5 +91,6 @@
         </div>
         @endforeach
     </div>
+    {{$works->links()}}
 </div>
 @endsection

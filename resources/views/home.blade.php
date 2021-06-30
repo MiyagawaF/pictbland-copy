@@ -21,8 +21,10 @@
                         <span>投稿</span></p>
                     </div>
                     <div class="col bg-white">
-                        <p class="text-center">100<br>
-                        <span>フォロー</span></p>
+                        <a href="users/follow_list">
+                            <p class="text-center">{{$follow_users}}<br>
+                            <span>フォロー</span></p>
+                        </a>
                     </div>
                 </div>
             </div>
