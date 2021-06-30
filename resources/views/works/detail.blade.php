@@ -95,7 +95,6 @@
                         $('#input_password').hide();
                         switch ({{$work->type}}) {
                             case 1:
-                                console.log(res.illust_work2.image_url);
                                 $('.illust_work1').removeClass('d-none');
                                 $('.illust_work1').children('img').attr('src', res.illust_work1.image_url);
                                 if (res.illust_work2.image_url != null) {
