@@ -16,7 +16,6 @@ Route::get('/', function () {
 });
 
 Route::get('/', 'HomeController@index');
-Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/readme', 'HomeController@readme');
 
@@ -48,3 +47,7 @@ Route::post('/works/update/illust/{id}', 'WorkController@updateIllust');//イラ
 Route::get('/search', 'WorkController@search');//作品検索
 
 Auth::routes();
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+});

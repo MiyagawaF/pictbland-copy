@@ -8,6 +8,8 @@ use App\Work;
 use App\NovelWork;
 use App\IllustWork;
 use App\WorkTag;
+use App\User;
+use App\FollowUser;
 use Storage;
 
 class WorkController extends Controller
@@ -133,15 +135,122 @@ class WorkController extends Controller
     public function detail($id)
     {
         $work = Work::where('id', $id)->first();
-        $novel_work = 0;
-        $illust_work1 = 0;
-        $illust_work2 = 0;
-        if (empty($work->password)) {
-            $novel_work = Novelwork::where('work_id', $id)->first();
-            $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
-            $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
+
+        $novel_work = Novelwork::where('work_id', $id)->first();
+        $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
+        $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
+        //作品を投稿したユーザー
+        $user = User::where('id', $work->user_id)->first();
+        $is_opened = true;
+
+        //1 全体公開の場合
+        if ($work->publish_status == 1) {
+            return view('works/detail', [
+                'work' => $work,
+                'novel_work' => $novel_work,
+                'illust_work1' => $illust_work1,
+                'illust_work2' => $illust_work2,
+                'user' => $user,
+                'is_opened' => $is_opened
+            ]);
         }
-        return view('works/detail', ['work' => $work, 'novel_work' => $novel_work, 'illust_work1' => $illust_work1, 'illust_work2' => $illust_work2]);
+
+        //2 会員限定の場合
+        $auth_user = Auth::user();
+        if (empty($auth_user)) {
+            $is_opened = false;
+            return view('works/detail', [
+                'work' => $work,
+                'user' => $user,
+                'is_opened' => $is_opened
+            ]);
+        }
+
+        //作品を投稿したユーザーをログインユーザーがフォローしているか
+        $user_followed = FollowUser::where('follow_id', $user->id)->where('follower_id', $auth_user->id)->first();
+        //ログインユーザーを作品を投稿したユーザーがフォローしているか
+        $auth_user_followed = FollowUser::where('follow_id', $auth_user->id)->where('follower_id', $user->id)->first();
+
+        //3 フォロワー限定公開
+        if ($work->publish_status == 3) {
+            if (empty($user_followed)) {
+                $is_opened = false;
+            }
+        }
+
+        //4 相互フォロワー限定公開
+        if ($work->publish_status == 4) {
+            if (empty($user_followed) || empty($auth_user_followed)) {
+                $is_opened = false;
+            }
+        }
+
+        //5 非公開
+        if ($work->publish_status == 5) {
+            if ($work->user_id != $auth_user->id) {
+                $is_opened = false;
+            }
+        }
+
+        //閲覧できる条件が揃っていたら作品の内容を渡す
+        if ($is_opened) {
+            return view('works/detail', [
+                'work' => $work,
+                'novel_work' => $novel_work,
+                'illust_work1' => $illust_work1,
+                'illust_work2' => $illust_work2,
+                'user' => $user,
+                'is_opened' => $is_opened
+            ]);
+        }else{
+            return view('works/detail', [
+                'work' => $work,
+                'user' => $user,
+                'is_opened' => $is_opened
+            ]);
+        }
+
+        //publish_statusが会員限定or全体公開の場合
+        // if ($work->publish_status == 1 || $work->publish_status == 2) {
+
+        //     $work_pub_st = "opened";
+        // }else{
+        //     $work_pub_st = "closed";
+        // }
+
+        // //公開範囲とフォロー関係の条件が合っているか否かの判断
+        
+        // //作品を投稿したユーザーをログインユーザーがフォローしているか
+        // $user_followed = FollowUser::where('follow_id', $user->id)->where('follower_id', $auth_user->id)->first();
+        // //ログインユーザーを作品を投稿したユーザーがフォローしているか
+        // $auth_user_followed = FollowUser::where('follow_id', $auth_user->id)->where('follower_id', $user->id)->first();
+        
+        // //公開範囲3 フォロー限定時の判定
+        // if ($work->publish_status == 3) {
+        //     if(isset($user_followed)) {
+        //         $pub_st_judge = 1;//条件を満たして閲覧可能
+        //     }else{
+        //         $pub_st_judge = 0;//条件を満たしていないので閲覧不可
+        //     }
+        // }
+        // //公開範囲4 相互フォロー限定時の判定
+        // if ($work->publish_status == 4) {
+        //     if(isset($user_followed) && isset($auth_user_followed)) {
+        //         $pub_st_judge = 1;//条件を満たして閲覧可能
+        //     }else{
+        //         $pub_st_judge = 0;//条件を満たしていないので閲覧不可
+        //     }
+        // }
+        
+
+        // //パスなしかつ公開範囲が会員限定以下、または公開の条件を満たす場合
+        // if (empty($work->password) && ($work_pub_st == "opened" || $pub_st_judge == 1)) {
+        //     $novel_work = Novelwork::where('work_id', $id)->first();
+        //     $illust_work1 = IllustWork::where('work_id', $id)->where('page', 1)->first();
+        //     $illust_work2 = IllustWork::where('work_id', $id)->where('page', 2)->first();
+        // }
+        // //dd($illust_work1);
+        // return view('works/detail', ['work' => $work, 'novel_work' => $novel_work, 'illust_work1' => $illust_work1, 'illust_work2' => $illust_work2, 'user' => $user, 'work_pub_st' => $work_pub_st, 'pub_st_judge' => $pub_st_judge]);
     }
 
     //パスワード付き作品の表示
