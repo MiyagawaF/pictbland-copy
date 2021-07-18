@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Profile;
+use App\UserSetting;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -76,6 +77,12 @@ class RegisterController extends Controller
         $profile->intro = '';
         $profile->image_url = "/img/profile.png";
         $profile->save();
+
+        //フォロー受付設定作成
+        $user_setting = new UserSetting();
+        $user_setting->user_id = $user->id;
+        $user_setting->follow_status = 1;
+        $user_setting->save();
         
         return $user;
     }

@@ -23,6 +23,7 @@ Route::get('/users/profile/{id}', 'UserController@profile');
 Route::get('/users/edit/prof_edit', 'UserController@profEdit');
 Route::post('/users/update/prof', 'UserController@profUpdate');
 Route::get('/users/edit/follow_edit', 'UserController@followEdit');
+Route::post('/users/update/follow', 'UserController@followUpdate');
 Route::post('/users/follow/{id}', 'UserController@follow');
 
 Route::get('/users/follow_list', 'UserController@follow_list');

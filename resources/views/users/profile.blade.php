@@ -27,7 +27,9 @@
                 </div>
             </div>
             <div class="w-100">
-                <button class="btn {{$follow_button}} mt-3 text-white" id="follow_button" data-follow_id="{{$user->id}}">{{$button_txt}}</button>
+                {{-- 申請中の場合は申請ボタンを表示する --}}
+                <button class="btn_noreact btn btn-secondary mt-3 w-100 text-white @if($status != 3) d-none @endif">フォロー申請中</button>
+                <button class="btn_react btn {{$follow_button}} mt-3 w-100 text-white @if($status == 3) d-none @endif" id="follow_button" data-follow_id="{{$user->id}}">{{$button_txt}}</button>
             </div>
 
         </div>
@@ -99,6 +101,7 @@
         $('#follow_button').click(function() {
             // フォローしたユーザーのidを取得する
             var id = $(this).data('follow_id');
+            var follow_status = {{$user_setting->follow_status}};
 
             // Ajax通信
             $.ajax({
@@ -108,22 +111,53 @@
                 },
                 url: '/users/follow/' + id, // アクセスするURL
                 type: 'POST', // POSTかGETか
-                success: function() {
+                success: function(response) {
+                    console.log(response);
                     //通信が成功した場合の処理をここに書く
-                    //フォローボタンをフォロー解除に切り替える
-                    if ($("#follow_button").hasClass("btn-info")) {
-                        $("#follow_button").removeClass("btn-info");
-                        $("#follow_button").addClass("btn-danger");
-                        $("#follow_button").text("フォロー解除");
-                    }else if ($("#follow_button").hasClass("btn-danger")) {
-                        $("#follow_button").removeClass("btn-danger");
-                        $("#follow_button").addClass("btn-info");
+                    if (response == 1) {
+                        $(".btn_react").removeClass("btn-danger");
+                        $(".btn_react").addClass("btn-info");
                         $("#follow_button").text("フォローする");
+                    }else if (response == 2) {
+                        $(".btn_react").removeClass("btn-danger");
+                        $(".btn_react").addClass("btn-info");
+                        $("#follow_button").text("フォロー申請する");
+                    }else if (response == 3) {
+                        $(".btn_react").addClass("d-none");
+                        $(".btn_noreact").removeClass("d-none");
+                    }if (response == 4) {
+                        $(".btn_react").removeClass("btn-info");
+                        $(".btn_react").addClass("btn-danger");
+                        $("#follow_button").text("フォロー解除");
                     }
+
+                    //フォロー受付設定が2（許可制）の場合
+                    // if (follow_status == 2) {
+                        
+                    //     if ($(".btn_react").hasClass("btn-info")) {
+                    //         $(".btn_react").hide();
+                    //         $(".btn_noreact").show();
+                    //     }else if ($(".btn_react").hasClass("btn-danger")) {
+                    //         $("#follow_button").removeClass("btn-danger");
+                    //         $("#follow_button").addClass("btn-info");
+                    //         $("#follow_button").text("フォロー申請する");
+                    //     }
+                    // }else if (follow_status == 1) {
+                    //     //フォローボタンをフォロー解除または逆に切り替える
+                    //     if ($("#follow_button").hasClass("btn-info")) {
+                    //         $("#follow_button").removeClass("btn-info");
+                    //         $("#follow_button").addClass("btn-danger");
+                    //         $("#follow_button").text("フォロー解除");
+                    //     }else if ($("#follow_button").hasClass("btn-danger")) {
+                    //         $("#follow_button").removeClass("btn-danger");
+                    //         $("#follow_button").addClass("btn-info");
+                    //         $("#follow_button").text("フォローする");
+                    //     }
+                    // }
                 },
                 error: function() {
                     //通信が失敗した場合の処理をここに書く
-                    alert("フォローに失敗しました");
+                    alert("フォロー、フォロー解除に失敗しました");
                 }
             });
         });

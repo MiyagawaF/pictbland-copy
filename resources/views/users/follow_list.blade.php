@@ -21,7 +21,7 @@
                     </div> --}}
                 </div>
                 <div class="col-md-9">
-                    <a href="profile/{{$follow_user->name}}">{{$follow_user->name}}</a>
+                    <a href="profile/{{$follow_user->follow_id}}">{{$follow_user->name}}</a>
                     <p>{{str_limit($follow_user->intro, 120, '　…')}}</p>
                 </div>
             </div>

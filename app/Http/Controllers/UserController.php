@@ -8,6 +8,7 @@ use App\User;
 use App\Work;
 use App\Profile;
 use App\FollowUser;
+use App\UserSetting;
 use Storage;
 
 class UserController extends Controller
@@ -24,18 +25,30 @@ class UserController extends Controller
             ->orderBy('works.created_at', 'desc')
             ->get();
         $profile = Profile::where('user_id', $id)->first();
+        $user_setting = UserSetting::where('user_id', $id)->first();
+        $status = 1;
 
         $auth_user = Auth::user();
-        $follow_users = FollowUser::where('follow_id', $user->id)->where('follower_id', $auth_user->id)->orderBy('created_at')->first();
-        if (isset($follow_users) && $follow_users->deleted_at == NULL){
+        $follow_users = FollowUser::where('follow_id', $user->id)->where('follower_id', $auth_user->id)->first();
+        if (isset($follow_users) && $follow_users->follow_approval == 1){
             $follow_button = "btn-danger";
             $button_txt = "フォロー解除";
+            $status = 4;
+        }else if ($user_setting->follow_status == 2 && empty($follow_users)) {
+            $follow_button = "btn-info";
+            $button_txt = "フォロー申請する";
+            $status = 2;
+        }else if ($user_setting->follow_status == 2 && $follow_users->follow_approval == 0) {
+            $follow_button = "btn-secondary";
+            $button_txt = "フォロー申請中";
+            $status = 3;
         }else{
             $follow_button = "btn-info";
             $button_txt = "フォローする";
+            $status = 1;
         }
 
-        return view('users/profile', ['user' => $user, 'works' => $works, 'profile' => $profile, 'follow_button' => $follow_button, 'button_txt' => $button_txt]);
+        return view('users/profile', ['user' => $user, 'works' => $works, 'profile' => $profile, 'follow_button' => $follow_button, 'button_txt' => $button_txt, 'user_setting' => $user_setting,'status' => $status]);
     }
 
     /**
@@ -70,20 +83,73 @@ class UserController extends Controller
         return redirect('/home');
     }
 
+    /**
+     * フォロー受付設定編集画面の表示
+     */
+    public function followEdit(){
+        $user = Auth::user();
+        $user_setting = UserSetting::where('user_id', $user->id)->first();
+        if (empty($user_setting)) {
+            return view('/users/edit/follow_edit', ['user' => $user]);
+        }else{
+            return view('/users/edit/follow_edit', ['user' => $user, 'user_setting' => $user_setting]);
+        }
+    }
+
+    //フォロー受付設定編集保存
+    public function followUpdate(Request $request){
+        $user = Auth::user();
+        $user_setting = UserSetting::where('user_id', $user->id)->first();
+        if (empty($user_setting)) {
+            $user_setting = new UserSetting();
+            $user_setting->user_id = $user->id;
+        }
+        $user_setting->follow_status = $request->input('user_settings');
+        $user_setting->save();
+
+        return redirect('/home');
+    }
+
     //フォロー機能
     public function follow($id){
+        $status = 1;
         $user = Auth::user();
+        //フォローをした相手のフォロー受付設定の呼び出し
+        $user_setting = UserSetting::where('user_id', $id)->first();
+        //既にフォローしているか確認
         $follow_users = FollowUser::where('follow_id', $id)->where('follower_id', $user->id)->first();
         if (isset($follow_users)) {
+            //フォロー済みだったらdelete_atを追加
             $follow_users->delete();
+            $follow_users->save();
+            if ($user_setting->follow_status == 1) {
+                $status = 1;
+            }else if ($user_setting->follow_status == 2) {
+                $status = 2;
+            }
         }else{
+
             $follow_users = new FollowUser();
             //ログインしているユーザーがフォローした相手のid
             $follow_users->follow_id = $id;
             //ログインしている（フォローをした）ユーザーのid
             $follow_users->follower_id = $user->id;
-            $follow_users->save();
+            if ($user_setting->follow_status == 1) {
+                //フォローを常に受け付ける設定の時
+                $follow_users->follow_approval = 1;
+                $follow_users->save();
+                $status = 4;
+            }else if ($user_setting->follow_status == 2) {
+                //承認制でフォローを受け付ける設定の時
+                $follow_users->follow_approval = 0;
+                $follow_users->save();
+                $status = 3;
+            }else if ($user_setting->follow_status == 3) {
+                //フォローを受付しない設定の時
+                $status = 5;
+            }
         }
+        return $status;
     }
 
     //フォロー一覧
